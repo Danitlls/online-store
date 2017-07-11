@@ -6,7 +6,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 export class AlbumService {
   albums: FirebaseListObservable<any[]>;
 
-//.list returns the list of objects 
+//.list returns the list of objects
 constructor(private database: AngularFireDatabase) {
   this.albums = database.list('albums');
   }
@@ -29,5 +29,18 @@ constructor(private database: AngularFireDatabase) {
     // }
   }
 
+  updateAlbum(localUpdatedAlbum){
+    var albumEntryInFirebase = this.getAlbumById(localUpdatedAlbum.$key);
+    albumEntryInFirebase.update({title: localUpdatedAlbum.title,
+                                artist: localUpdatedAlbum.artist,
+                                description: localUpdatedAlbum.description});
+  }
+
+  deleteAlbum(localAlbumToDelete){
+    // var albumEntryInFirebase = this.getAlbumById(localAlbumToDelete.$key);
+    // albumEntryInFirebase.remove();
+
+    this.getAlbumById(localAlbumToDelete.$key).remove();
+  }
 
 }
